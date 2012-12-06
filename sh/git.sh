@@ -53,4 +53,5 @@ function gup() {
   pd $DIR && ga . && grm && gcm "Upgrade $DIR" && ...
 }
 
+# Useful for http://permalink.gmane.org/gmane.comp.version-control.git.debian/178
 export GIT_PS1_SHOWDIRTYSTATE=true
