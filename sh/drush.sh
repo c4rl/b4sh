@@ -17,11 +17,39 @@ function findfunc {
     mate -l ${LINE} ${FILE}
   done
 }
-# Drupal codebase specific https://gist.github.com/3954318
+
+# Drupal-codebase specific https://gist.github.com/3954318
 function dff {
   grep -rn "function $1(" `drush dd`| grep -vP "tags|patch$"| awk -F':' '{print $1,$2}' |
   while read FILE LINE
   do
     mate -l ${LINE} ${FILE}
   done
+}
+
+# Jump to a given module, or custom, or contrib, or core modules.
+function mod {
+  if [[ $1 == 'custom' ]]; then
+    DIR="sites/all/modules/custom"
+  elif [[ $1 == 'contrib' ]]; then
+    DIR="sites/all/modules/contrib"
+  elif [[ $1 == '' ]]; then
+    DIR="modules"
+  else
+    DIR=`drush php-eval "echo drupal_get_path('module', '$1')"`
+  fi
+  ROOT=`drush dd`
+  cd $ROOT/$DIR
+}
+
+# Jump to a given theme, or the default theme.
+function theme {
+  if [[ $1 == '' ]]; then
+    THEME=`drush vget --format=json theme_default|replace '"' ''`
+  else
+    THEME=$1
+  fi
+  DIR=`drush php-eval "echo drupal_get_path('theme', '$THEME')"`
+  ROOT=`drush dd`
+  cd $ROOT/$DIR
 }

@@ -3,7 +3,7 @@ alias ..='cd ..'
 alias pd='pushd'
 alias ...='popd'
 
-# Pivotal tracker fun
+# Pivotal tracker fun. http://pt.c4rl.ws
 function pt() {
   echo "http://pt.c4rl.ws/s/$1" | tr -d "\n" | pbcopy && echo "http://pt.c4rl.ws/s/$1"
 }
@@ -15,8 +15,6 @@ function ptp() {
 function pte() {
   echo "http://pt.c4rl.ws/e/$1" | tr -d "\n" | pbcopy && echo "http://pt.c4rl.ws/e/$1"
 }
-
-# Other stuff
 
 # Shortcut to compress and remove a file or directory.
 function czf() {

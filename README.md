@@ -8,4 +8,19 @@ To install, clone the repo to your home directory, then add this to your bash pr
 
 To add your own recursive scripts, create them in the sh directory, then add
 them to all.sh as demonstrated.
+
+Available scripts
+--------------------------------------------------------------------------------
+
+### drupalorg.sh
+Drupal.org related functions and aliases
+
+### drush.sh
+Drush related functions and aliases
+
+### etc.sh
+Misc functions and aliases
+
+### git.sh
+Git related functions and aliases
   

@@ -18,29 +18,39 @@ alias grm="git status -s . | grep '^ D' | awk '{print \$2}' | xargs git rm"
 alias gbc="git branch | grep ^\* | awk '{print \$2}'"
 # Delete branch name
 alias gbd='git branch -d'
+# Goto master.
 alias gh='gco master'
-# Delete the current branch if merged into master
+
+# Delete the current branch if merged into master.
 function gitkill() {
   # Get branch we are on
   CURRENT=`gbc`
   git checkout master && git branch -d $CURRENT && growlnotify -m "$CURRENT deleted"
 }
 
+# Checkout [to branch], merge --no-ff [current branch] with auto message,
+# push [to branch] to remote, & re-checkout current.
+#
 # Usage: (From [current branch])
 #
 # $> gitdeploy [to branch]
 #
-# This will checkout [to branch], merge --no-ff [current branch] with auto
-# message, push [to branch] to remote, & re-checkout current.
 function gitdeploy() {
   # Get branch we are on
   CURRENT=`gbc`
   git checkout $1 && git pull && git merge --no-ff $CURRENT -m "Merging $CURRENT" && git push && git checkout $CURRENT && growlnotify -m "$CURRENT > $1"
 }
 
-# Resolve a drush upc via git. Move into a directory, get rid of old stuff,
-# add new stuff, commit with auto message
+# Resolve a subdirectory code upgrade (like drush upc) via git. Move into a
+# directory, get rid of old stuff, add new stuff, commit with auto message.
+#
+# Usage:
+#
+# $> gup [dirname]
+#
 function gup() {
   DIR=$1
-  pd $DIR && ga . && grm && gcm "Upgraded $DIR" && ...
+  pd $DIR && ga . && grm && gcm "Upgrade $DIR" && ...
 }
+
+export GIT_PS1_SHOWDIRTYSTATE=true
