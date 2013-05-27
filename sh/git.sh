@@ -41,6 +41,20 @@ function gitdeploy() {
   git checkout $1 && git pull && git merge --no-ff $CURRENT -m "Merging $CURRENT" && git push && git checkout $CURRENT && growlnotify -m "$CURRENT > $1"
 }
 
+function interdiff() {
+  CURRENT=`gbc`
+  OLD=$1
+  NEW=$2
+  git reset --hard
+  git checkout -b _old_patch_ && git apply --index $1 && git commit -am 'Old patch'
+  git checkout $CURRENT
+  git checkout -b _new_patch_ && git apply --index $2 && git commit -am 'New patch'
+  git diff _old_patch_ > $2-interdiff.txt
+  git checkout $CURRENT
+  git branch -D _old_patch_ && git branch -D _new_patch_
+  echo "Created $2-interdiff.txt"
+}
+
 # Resolve a subdirectory code upgrade (like drush upc) via git. Move into a
 # directory, get rid of old stuff, add new stuff, commit with auto message.
 #
