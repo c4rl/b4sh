@@ -21,6 +21,13 @@ function rroll() {
 }
 
 # Roll a core patch from a separate branch using the advanced technique.
+#
+# Usage:
+#
+# $> roll [issue nid] [comment index]
+#
+# Produces [project name]-[issue nid]-[comment index].patch. Chage the DIR
+# below to save in a different directory.
 function croll() {
   NAME=drupal-$1-$2.patch
   DIR=~/_drupal/patches/
