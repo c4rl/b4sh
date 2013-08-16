@@ -21,6 +21,11 @@ alias gbd='git branch -d'
 # Goto master.
 alias gh='gco master'
 
+function gai() {
+  FILE=$1
+  git apply --index $FILE && git commit -m "Applying $FILE"
+}
+
 # Delete the current branch if merged into master.
 function gitkill() {
   # Get branch we are on

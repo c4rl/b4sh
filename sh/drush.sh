@@ -1,7 +1,8 @@
 # Drush fun
-alias ddb='drush sql-drop -y && `drush sql-connect`'
+alias ddb='drush sql-drop -qy && `drush sql-connect`'
+alias dsi='drush si minimal --db-url=mysql://root:root@localhost/d8 --site-mail=carl.wiedemann@gmail.com --account-mail=carl.wiedemann@gmail.com  --account-name=root --site-name=d8 -y && drush uli'
 alias cdd='cd `drush dd`'
-alias dcc='drush cc all -y && echo "Cached cleared"'
+alias dcc='drush cc all -y && gn "Cached cleared"'
 alias mated='mate `drush dd`'
 alias dbug='cat /tmp/drupal_debug.txt'
 alias mdbug='mate /tmp/drupal_debug.txt'
