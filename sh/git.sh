@@ -46,8 +46,13 @@ function gitdeploy() {
   git checkout $1 && git pull && git merge --no-ff $CURRENT -m "Merging $CURRENT" && git push && git checkout $CURRENT && growlnotify -m "$CURRENT > $1"
 }
 
+#
+# Usage: (From [master branch])
+#
+# $> interdiff [first.patch] [second.patch]
+#
 function interdiff() {
-  CURRENT=`gbc`
+  CURRENT=`git branch | grep ^\* | awk '{print \$2}'`
   OLD=$1
   NEW=$2
   git reset --hard
