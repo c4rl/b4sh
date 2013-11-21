@@ -33,8 +33,8 @@ function gitkill() {
   git checkout master && git branch -d $CURRENT && growlnotify -m "$CURRENT deleted"
 }
 
-# Checkout [to branch], merge --no-ff [current branch] with auto message,
-# push [to branch] to remote, & re-checkout current.
+# Checkout [to branch], merge [current branch], push [to branch] to remote,
+# & re-checkout current.
 #
 # Usage: (From [current branch])
 #
@@ -43,7 +43,12 @@ function gitkill() {
 function gitdeploy() {
   # Get branch we are on
   CURRENT=`gbc`
-  git checkout $1 && git pull && git merge --no-ff $CURRENT -m "Merging $CURRENT" && git push && git checkout $CURRENT && growlnotify -m "$CURRENT > $1"
+  git checkout $1 && git pull && git merge $CURRENT && git push && git checkout $CURRENT && growlnotify -m "$CURRENT > $1"
+}
+
+# Force-push changes to a qa branch.
+function gitqa() {
+  git branch -d qa && git checkout -b qa && git push --force --set-upstream origin qa
 }
 
 #
