@@ -9,6 +9,9 @@ alias mdbug='mate /tmp/drupal_debug.txt'
 alias cdbug='cat /dev/null > /tmp/drupal_debug.txt && chmod 777 /tmp/drupal_debug.txt && echo "Cleared /tmp/drupal_debug.txt"'
 alias devcss='drush vset cache 0 -y && drush vset preprocess_css 0 -y && drush vset preprocess_js 0 -y && drush vset less_devel 1 -y'
 alias prodcss='drush vset cache 1 -y && drush vset preprocess_css 1 -y && drush vset preprocess_js 1 -y && drush vset less_devel 0 -y'
+alias dss='drush site-set'
+# Open drupal debug in Console
+alias dcon='open -a /Applications/Utilities/Console.app /tmp/drupal_debug.txt'
 
 # Goto the file that contains the given function
 function findfunc {
