@@ -1,23 +1,39 @@
-# Roll a patch given an issue number and comment number.
+#
+# Rebase and roll a drupal patch!
+#
+# I keep my patches in ~/_src/patches so you can adjust that if you want.
 #
 # Usage:
 #
-# $> roll [issue nid] [comment index]
+# $> rroll [ISSUE NID] [COMMENT CID TO BE ADDED] [HEAD] [EXISTING PATCH TO INTERDIFF (optional)]
 #
-# Produces [project name]-[issue nid]-[comment index].patch. Chage the DIR
-# below to save in a different directory.
 #
-function roll() {
-  NAME=${PWD##*/}-$1-$2.patch
-  DIR=~/_drupal/patches/
-  git diff > $DIR$NAME && echo -e "Patch rolled:\n$DIR$NAME"
-}
-
 function rroll() {
+  CURRENT=`git branch | grep ^\* | awk '{print \$2}'`
   NAME=${PWD##*/}-$1-$2.patch
-  DIR=~/_drupal/patches/
-  BRANCH=$3
-  git rebase $BRANCH && git diff $BRANCH > $DIR$NAME && echo -e "Patch rolled:\n$DIR$NAME"
+  OLDNAME=${PWD##*/}-$1-$4.patch
+  DIR=~/_src/patches/
+  HEAD=$3
+  git rebase $HEAD && git diff $HEAD > $DIR$NAME && echo -e "Patch rolled: $DIR$NAME"
+
+  if [ -f $DIR$OLDNAME ]; then
+    # Create the interdiff.
+    git checkout $HEAD
+    git reset --hard
+
+    git checkout -b _old_patch_ && git apply --index $DIR$OLDNAME && git commit -am 'Old patch'
+    git checkout $HEAD
+
+    git checkout -b _new_patch_ && git apply --index $DIR$NAME && git commit -am 'New patch'
+    git diff _old_patch_ > $DIR$NAME-interdiff.txt
+
+    git checkout $CURRENT
+    git branch -D _old_patch_ && git branch -D _new_patch_
+
+    echo "Created $DIR$NAME-interdiff.txt"
+
+  fi
+
 }
 
 # Roll a core patch from a separate branch using the advanced technique.
