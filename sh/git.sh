@@ -70,17 +70,6 @@ function interdiff() {
   echo "Created $2-interdiff.txt"
 }
 
-# # Resolve a subdirectory code upgrade (like drush upc) via git. Move into a
-# # directory, get rid of old stuff, add new stuff, commit with auto message.
-# #
-# # Usage:
-# #
-# # $> gup [dirname]
-# #
-# function gup() {
-#   DIR=$1
-#   pd $DIR && ga . && grm && gcm "Upgrade $DIR" && ...
-# }
-# 
-# # Useful for http://permalink.gmane.org/gmane.comp.version-control.git.debian/178
-# export GIT_PS1_SHOWDIRTYSTATE=true
+function shortstat {
+  git diff $1 --shortstat | xargs echo
+}
